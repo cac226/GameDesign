@@ -2,3 +2,13 @@
 *.vsidx
 WordleVariations/.vs/WordleVariations/v17/.suo
 *.cache
+*.dll
+*.xml
+*.targets
+*.props
+*.testlog
+*.manifest
+*.BuildWithSkipAnalyzers
+*.CopyComplete
+*.txt
+*.bin

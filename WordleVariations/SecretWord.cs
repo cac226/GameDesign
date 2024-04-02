@@ -12,19 +12,20 @@ namespace WordleVariations
 
         public SecretWord(string word)
         {
-            secretWord = word;
+            secretWord = word.ToUpper();
         }
 
         public GuessResult[] GuessWord(string guess)
         {
+            string guessUpper = guess.ToUpper();
             GuessResult[] result = new GuessResult[guess.Length];
 
             for(int i = 0; i < guess.Length; i++)
             {
-                if (guess[i] == secretWord[i])
+                if (guessUpper[i] == secretWord[i])
                 {
                     result[i] = GuessResult.CORRECT;
-                } else if (!containsLetter(guess[i]))
+                } else if (!containsLetter(guessUpper[i]))
                 {
                     result[i] = GuessResult.INCORRECT;
                 } else
@@ -36,9 +37,16 @@ namespace WordleVariations
             return result;
         }
 
+        public string RevealWord()
+        {
+            return secretWord;
+        }
+
         private bool containsLetter(char c)
         {
             return secretWord.Contains(c);
         }
+
+        
     }
 }
