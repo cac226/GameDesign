@@ -51,47 +51,25 @@ namespace WordleVariations
                     // if a secret word has 1 of a letter, but the guess has 2 of that letter, we only want one of those guess letters to be marked as correct 
                     // e.g. if the secret word is "FACTS" and a user guesses "CHESS" the first S should be marked as incorrect and the second marked as correct 
 
-                    /*
-                     Cases: 
-                    - Only 1 of given letter in both guess and secret word 
-                    - 1 letter in secret word, >1 letter in guess 
-                    - 
-                     */
-
                     int secretWordLetterCount = countOccurances(secretWord, guessedLetter);
                     int guessLetterCount = countOccurances(guess, guessedLetter);
 
-                    if (guessLetterCount <= secretWordLetterCount)
+                    if(guessLetterCount > secretWordLetterCount)
                     {
-                        result[i] = GuessResult.RIGHT_LETTER_WRONG_LOCATION;
-                    }
-                    else // there are more occurances of the target letter in the guess than in the secret word, so not all the letters in the guess should be marked as partially correct 
-                    {
-                        // 
-                        // when is it incorrect? 
-                        // target letter already showed up appropriate number of times in the guess 
-                        // there are correct letters later in the word 
+                        int truncatedGuessLetterCount = countOccurances(guess.Substring(0, i), guessedLetter); 
+                        int correctlyPlaced = countCorrectOccurances(guess, guessedLetter);
 
-                        int truncatedGuessLetterCount = countOccurances(guess.Substring(0, i), guessedLetter);
-
-                        if (truncatedGuessLetterCount >= secretWordLetterCount) 
+                        if (truncatedGuessLetterCount >= secretWordLetterCount - correctlyPlaced)
                         {
                             result[i] = GuessResult.INCORRECT;
                         } else
                         {
-                            int correctlyPlaced = countCorrectOccurances(guess, guessedLetter); 
-                            
-                            if(secretWordLetterCount - correctlyPlaced == 0)
-                            {
-                                result[i] = GuessResult.INCORRECT;
-                            } else if(truncatedGuessLetterCount >= secretWordLetterCount - correctlyPlaced)
-                            {
-                                result[i] = GuessResult.INCORRECT;
-                            } else
-                            {
-                                result[i] = GuessResult.RIGHT_LETTER_WRONG_LOCATION;
-                            }
+                            result[i] = GuessResult.RIGHT_LETTER_WRONG_LOCATION;
                         }
+
+                    } else
+                    {
+                        result[i] = GuessResult.RIGHT_LETTER_WRONG_LOCATION;
                     }
                 }
             }
