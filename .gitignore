@@ -10,6 +10,5 @@ WordleVariations/.vs/WordleVariations/v17/.suo
 *.manifest
 *.BuildWithSkipAnalyzers
 *.CopyComplete
-*.txt
 *.bin
 *.pdb

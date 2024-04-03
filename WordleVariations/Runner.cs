@@ -3,11 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace WordleVariations { 
+namespace WordleVariations {
+    /*
+     TODO: include a "you got this in X guesses" 
+     TODO: add instructions 
+     TODO: seperate the game logic from input/output 
+     */
     public class Runner {
         public static void RunGame()
         {
-            SecretWord secretWord = new SecretWord("chess");
+            IGetWords wordGetter = WordGetter.CreateFromTextFile();
+            SecretWord secretWord = wordGetter.GetRandomFiveLetterWord();
 
             bool playAgain = true;
 
@@ -20,7 +26,22 @@ namespace WordleVariations {
                 string guessPrintable = getWordGuess(result, guess);
                 Console.WriteLine(guessPrintable);
 
+                if(isCorrectGuess(secretWord, guess))
+                {
+                    Console.WriteLine("You win! Play again? (Y/N)");
+                    string response = Console.ReadLine();
+
+                    if(string.Equals(response, "N", StringComparison.OrdinalIgnoreCase))
+                    {
+                        playAgain = false;
+                    }
+                }
             }
+        }
+
+        private static bool isCorrectGuess(SecretWord secretWord, string guess)
+        {
+            return string.Equals(secretWord.RevealWord(), guess, StringComparison.OrdinalIgnoreCase);
         }
 
         private static string getWordGuess(GuessResult[] guessResult, string guess)
