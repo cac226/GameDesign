@@ -4,22 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 
 
 namespace WordleVariations
 {
-    [TestClass]
     public class SecretWordTests
     {
         private SecretWord secretWord;
         private GuessResult[] guessResult;
 
         #region givens
-        private void secretWordCheese()
+        private void secretWordChess()
         {
-            secretWord = new SecretWord("cheese");
+            secretWord = new SecretWord("Chess");
         }
 
         private void secretWordScuba()
@@ -36,9 +34,9 @@ namespace WordleVariations
             guessResult = secretWord.GuessWord("point");
         }
 
-        private void whenGuessCheese()
+        private void whenGuessChess()
         {
-            guessResult = secretWord.GuessWord("cheese");
+            guessResult = secretWord.GuessWord("Chess");
         }
 
         #endregion
@@ -66,11 +64,11 @@ namespace WordleVariations
         #region tests 
 
         [Fact]
-        public void Cheese_GuessPoint()
+        public void Chess_GuessPoint()
         {
-            secretWordCheese();
+            secretWordChess();
 
-            Xunit.Assert.Equal("CHEESE", secretWord.RevealWord());
+            Xunit.Assert.Equal("CHESS", secretWord.RevealWord());
 
             whenGuessPoint();
             whenGuessPoint();
@@ -80,13 +78,13 @@ namespace WordleVariations
         }
 
         [Fact] 
-        public void Cheese_GuessCheese()
+        public void Chess_GuessChess()
         {
-            secretWordCheese();
+            secretWordChess();
 
-            Xunit.Assert.Equal("CHEESE", secretWord.RevealWord());
+            Xunit.Assert.Equal("CHESS", secretWord.RevealWord());
 
-            whenGuessCheese();
+            whenGuessChess();
             thenAllCorrect();
         }
 
