@@ -25,6 +25,11 @@ namespace WordleVariations
             secretWord = new SecretWord("scUBA");
         }
 
+        private void secretWordFacts()
+        {
+            secretWord = new SecretWord("facts");
+        }
+
         #endregion
 
         #region whens
@@ -37,6 +42,16 @@ namespace WordleVariations
         private void whenGuessChess()
         {
             guessResult = secretWord.GuessWord("Chess");
+        }
+
+        private void whenGuessFacts()
+        {
+            guessResult = secretWord.GuessWord("Facts");
+        }
+
+        private void whenGuessSSSSS()
+        {
+            guessResult = secretWord.GuessWord("SSSSS");
         }
 
         #endregion
@@ -59,6 +74,51 @@ namespace WordleVariations
             }
         }
 
+        /*
+         * C = Correct 
+         * X = Incorrect 
+         * P = Partially correct (right letter wrong location) 
+         */
+        
+
+        
+        private void thenResultIs_PXXPX()
+        {
+            Assert.Equal(GuessResult.RIGHT_LETTER_WRONG_LOCATION, guessResult[0]);
+            Assert.Equal(GuessResult.INCORRECT, guessResult[1]);
+            Assert.Equal(GuessResult.INCORRECT, guessResult[2]);
+            Assert.Equal(GuessResult.RIGHT_LETTER_WRONG_LOCATION, guessResult[3]);
+            Assert.Equal(GuessResult.INCORRECT, guessResult[4]);
+        }
+
+        private void thenResultIs_PXXXC()
+        {
+            Assert.Equal(GuessResult.RIGHT_LETTER_WRONG_LOCATION, guessResult[0]);
+            Assert.Equal(GuessResult.INCORRECT, guessResult[1]);
+            Assert.Equal(GuessResult.INCORRECT, guessResult[2]);
+            Assert.Equal(GuessResult.INCORRECT, guessResult[3]);
+            Assert.Equal(GuessResult.CORRECT, guessResult[4]);
+        }
+
+        private void thenResultIs_XXPXC()
+        {
+            Assert.Equal(GuessResult.INCORRECT, guessResult[0]);
+            Assert.Equal(GuessResult.INCORRECT, guessResult[1]);
+            Assert.Equal(GuessResult.RIGHT_LETTER_WRONG_LOCATION, guessResult[2]);
+            Assert.Equal(GuessResult.INCORRECT, guessResult[3]);
+            Assert.Equal(GuessResult.CORRECT, guessResult[4]);
+        }
+
+        private void thenResultIs_XXXCC()
+        {
+            Assert.Equal(GuessResult.INCORRECT, guessResult[0]);
+            Assert.Equal(GuessResult.INCORRECT, guessResult[1]);
+            Assert.Equal(GuessResult.INCORRECT, guessResult[2]);
+            Assert.Equal(GuessResult.CORRECT, guessResult[3]);
+            Assert.Equal(GuessResult.CORRECT, guessResult[4]);
+        }
+
+
         #endregion
 
         #region tests 
@@ -68,10 +128,8 @@ namespace WordleVariations
         {
             secretWordChess();
 
-            Xunit.Assert.Equal("CHESS", secretWord.RevealWord());
+            Assert.Equal("CHESS", secretWord.RevealWord());
 
-            whenGuessPoint();
-            whenGuessPoint();
             whenGuessPoint();
             thenAllIncorrect();
 
@@ -82,11 +140,51 @@ namespace WordleVariations
         {
             secretWordChess();
 
-            Xunit.Assert.Equal("CHESS", secretWord.RevealWord());
+            Assert.Equal("CHESS", secretWord.RevealWord());
 
             whenGuessChess();
             thenAllCorrect();
         }
+
+        [Fact]
+        public void Chess_GuessSSSSS()
+        {
+            secretWordChess();
+
+            whenGuessSSSSS();
+            thenResultIs_XXXCC();
+        }
+
+        [Fact]
+        public void Chess_GuessFacts()
+        {
+            secretWordChess();
+            whenGuessFacts();
+
+            thenResultIs_XXPXC();
+        }
+
+        [Fact]
+        public void Facts_GuessChess()
+        {
+            secretWordFacts();
+            whenGuessChess();
+            
+            thenResultIs_PXXXC();
+        }
+
+        [Fact]
+        public void Scuba_GuessChess()
+        {
+            secretWordScuba();
+
+            Assert.Equal("SCUBA", secretWord.RevealWord());
+
+            whenGuessChess();
+            thenResultIs_PXXPX();
+        }
+
+        
 
         #endregion
     }
