@@ -57,7 +57,11 @@ namespace WordleVariations
                     - 1 letter in secret word, >1 letter in guess 
                     - 
                      */
-                    if (countOccurances(guess, guessedLetter) <= countOccurances(secretWord, guessedLetter))
+
+                    int secretWordLetterCount = countOccurances(secretWord, guessedLetter);
+                    int guessLetterCount = countOccurances(guess, guessedLetter);
+
+                    if (guessLetterCount <= secretWordLetterCount)
                     {
                         result[i] = GuessResult.RIGHT_LETTER_WRONG_LOCATION;
                     }
@@ -68,12 +72,25 @@ namespace WordleVariations
                         // target letter already showed up appropriate number of times in the guess 
                         // there are correct letters later in the word 
 
-                        if(countOccurances(guess.Substring(0, i), guessedLetter) >= countOccurances(secretWord, guessedLetter)) 
+                        int truncatedGuessLetterCount = countOccurances(guess.Substring(0, i), guessedLetter);
+
+                        if (truncatedGuessLetterCount >= secretWordLetterCount) 
                         {
                             result[i] = GuessResult.INCORRECT;
                         } else
                         {
-                            result[i] = GuessResult.RIGHT_LETTER_WRONG_LOCATION;
+                            int correctlyPlaced = countCorrectOccurances(guess, guessedLetter); 
+                            
+                            if(secretWordLetterCount - correctlyPlaced == 0)
+                            {
+                                result[i] = GuessResult.INCORRECT;
+                            } else if(truncatedGuessLetterCount >= secretWordLetterCount - correctlyPlaced)
+                            {
+                                result[i] = GuessResult.INCORRECT;
+                            } else
+                            {
+                                result[i] = GuessResult.RIGHT_LETTER_WRONG_LOCATION;
+                            }
                         }
                     }
                 }
@@ -87,11 +104,26 @@ namespace WordleVariations
             return secretWord.Contains(c);
         }
 
-        
+        private int countCorrectOccurances(string guess, char letter)
+        {
+            int count = 0;
+
+            for(int i = 0; i < guess.Length; i++)
+            {
+                if (guess[i] == letter && secretWord[i] == letter)
+                {
+                    count++;
+                }
+            }
+
+            return count;
+        }
 
         private static int countOccurances(string word, char targetLetter)
         {
             return word.Count(c => c == targetLetter);
         }
+
+        
     }
 }
