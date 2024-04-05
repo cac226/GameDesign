@@ -7,7 +7,6 @@ namespace WordleVariations {
     /*
      TODO: include a "you got this in X guesses" 
      TODO: add instructions 
-     TODO: seperate the game logic from input/output 
      */
     public class Runner {
         public static void RunGame()

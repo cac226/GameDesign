@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WordleVariations
 {
-    internal enum LetterType
+    internal enum LetterType // TODO: rename, maybe to LetterFeedback? LetterResponse?
     {
         CORRECT = 0,
         INCORRECT = 1,
