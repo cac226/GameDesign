@@ -9,5 +9,6 @@ namespace WordleVariations
     internal interface IGetWords
     {
         public SecretWord GetRandomFiveLetterWord();
+        public bool IsValidFiveLetterWord(string word);
     }
 }

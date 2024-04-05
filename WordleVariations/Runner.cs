@@ -12,9 +12,8 @@ namespace WordleVariations {
     public class Runner {
         public static void RunGame()
         {
-            IGetWords wordGetter = WordGetter.CreateFromTextFile();
-            SecretWord secretWord = wordGetter.GetRandomFiveLetterWord();
-
+            GameInstance instance = new GameInstance(WordGetter.CreateFromTextFile());
+            instance.SetupNewGame();
             bool playAgain = true;
 
             while(playAgain)
@@ -22,26 +21,31 @@ namespace WordleVariations {
                 Console.Write("Guess: ");
                 string guess = Console.ReadLine();
 
-                GuessResult[] result = secretWord.GuessWord(guess);
-                string guessPrintable = getWordGuess(result, guess);
-                Console.WriteLine(guessPrintable);
-
-                if(isCorrectGuess(secretWord, guess))
+                GuessResult[] result;
+                bool isValidGuess = instance.TryMakeGuess(guess, out result);
+                if(isValidGuess)
                 {
-                    Console.WriteLine("You win! Play again? (Y/N)");
-                    string response = Console.ReadLine();
+                    string guessPrintable = getWordGuess(result, guess);
+                    Console.WriteLine(guessPrintable);
 
-                    if(string.Equals(response, "N", StringComparison.OrdinalIgnoreCase))
+                    if (instance.IsSecretWord(guess))
                     {
-                        playAgain = false;
+                        Console.WriteLine("You win! Play again? (Y/N)");
+                        string response = Console.ReadLine();
+
+                        if (string.Equals(response, "N", StringComparison.OrdinalIgnoreCase))
+                        {
+                            playAgain = false;
+                        } else
+                        {
+                            instance.SetupNewGame();
+                        }
                     }
+                } else
+                {
+                    Console.WriteLine("not a valid word!");
                 }
             }
-        }
-
-        private static bool isCorrectGuess(SecretWord secretWord, string guess)
-        {
-            return string.Equals(secretWord.RevealWord(), guess, StringComparison.OrdinalIgnoreCase);
         }
 
         private static string getWordGuess(GuessResult[] guessResult, string guess)
