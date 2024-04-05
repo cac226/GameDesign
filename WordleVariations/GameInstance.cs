@@ -18,16 +18,16 @@ namespace WordleVariations
 			guessCount = 0;
 		}
 
-		public bool TryMakeGuess(string guess, out GuessResult[] result)
+		public GuessResponseData MakeGuess(string guess)
 		{
 			if(!isValidGuess(guess))
 			{
-				result = new GuessResult[0];
-				return false;
+				return GuessResponseData.CreateDataInvalidGuess(guessCount);
 			}
-			result = secretWord.GuessWord(guess);
+            LetterType[] letterResult = secretWord.GuessWord(guess);
+			bool hasWon = IsSecretWord(guess);
 			guessCount++;
-			return true;
+			return GuessResponseData.CreateDataValidGuess(letterResult, hasWon, guessCount);
 		}
 
 		public bool IsSecretWord(string guess)

@@ -21,19 +21,19 @@ namespace WordleVariations {
                 Console.Write("Guess: ");
                 string guess = Console.ReadLine();
 
-                GuessResult[] result;
-                bool isValidGuess = instance.TryMakeGuess(guess, out result);
-                if(isValidGuess)
+                LetterType[] result;
+                GuessResponseData response = instance.MakeGuess(guess);
+                if(response.WasLastGuessValid())
                 {
-                    string guessPrintable = getWordGuess(result, guess);
+                    string guessPrintable = getWordGuessString(response.GetLetterData(), guess);
                     Console.WriteLine(guessPrintable);
 
                     if (instance.IsSecretWord(guess))
                     {
-                        Console.WriteLine("You win! Play again? (Y/N)");
-                        string response = Console.ReadLine();
+                        Console.WriteLine("You won with " + response.GuessCount() + " guesses! Play again? (Y/N)");
+                        string userResponse = Console.ReadLine();
 
-                        if (string.Equals(response, "N", StringComparison.OrdinalIgnoreCase))
+                        if (string.Equals(userResponse, "N", StringComparison.OrdinalIgnoreCase))
                         {
                             playAgain = false;
                         } else
@@ -48,17 +48,17 @@ namespace WordleVariations {
             }
         }
 
-        private static string getWordGuess(GuessResult[] guessResult, string guess)
+        private static string getWordGuessString(LetterType[] guessResult, string guess)
         {
             char[] result = new char[guess.Length];
             for(int i = 0; i < guess.Length; i++)
             {
                 switch(guessResult[i])
                 {
-                    case GuessResult.CORRECT:
+                    case LetterType.CORRECT:
                         result[i] = guess.ToUpper()[i];
                         break;
-                    case GuessResult.RIGHT_LETTER_WRONG_LOCATION:
+                    case LetterType.RIGHT_LETTER_WRONG_LOCATION:
                         result[i] = guess.ToLower()[i];
                         break;
                     default:

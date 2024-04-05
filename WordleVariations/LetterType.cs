@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WordleVariations
 {
-    internal enum GuessResult
+    internal enum LetterType
     {
         CORRECT = 0,
         INCORRECT = 1,

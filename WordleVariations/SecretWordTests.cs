@@ -12,7 +12,7 @@ namespace WordleVariations
     public class SecretWordTests
     {
         private SecretWord secretWord;
-        private GuessResult[] guessResult;
+        private LetterType[] guessResult;
 
         #region givens
         private void secretWordChess()
@@ -62,7 +62,7 @@ namespace WordleVariations
         {
             for(int i = 0; i < guessResult.Length; i++)
             {
-                Xunit.Assert.Equal(GuessResult.INCORRECT, guessResult[i]);
+                Xunit.Assert.Equal(LetterType.INCORRECT, guessResult[i]);
             }
         }
 
@@ -70,7 +70,7 @@ namespace WordleVariations
         {
             for (int i = 0; i < guessResult.Length; i++)
             {
-                Xunit.Assert.Equal(GuessResult.CORRECT, guessResult[i]);
+                Xunit.Assert.Equal(LetterType.CORRECT, guessResult[i]);
             }
         }
 
@@ -84,38 +84,38 @@ namespace WordleVariations
         
         private void thenResultIs_PXXPX()
         {
-            Assert.Equal(GuessResult.RIGHT_LETTER_WRONG_LOCATION, guessResult[0]);
-            Assert.Equal(GuessResult.INCORRECT, guessResult[1]);
-            Assert.Equal(GuessResult.INCORRECT, guessResult[2]);
-            Assert.Equal(GuessResult.RIGHT_LETTER_WRONG_LOCATION, guessResult[3]);
-            Assert.Equal(GuessResult.INCORRECT, guessResult[4]);
+            Assert.Equal(LetterType.RIGHT_LETTER_WRONG_LOCATION, guessResult[0]);
+            Assert.Equal(LetterType.INCORRECT, guessResult[1]);
+            Assert.Equal(LetterType.INCORRECT, guessResult[2]);
+            Assert.Equal(LetterType.RIGHT_LETTER_WRONG_LOCATION, guessResult[3]);
+            Assert.Equal(LetterType.INCORRECT, guessResult[4]);
         }
 
         private void thenResultIs_PXXXC()
         {
-            Assert.Equal(GuessResult.RIGHT_LETTER_WRONG_LOCATION, guessResult[0]);
-            Assert.Equal(GuessResult.INCORRECT, guessResult[1]);
-            Assert.Equal(GuessResult.INCORRECT, guessResult[2]);
-            Assert.Equal(GuessResult.INCORRECT, guessResult[3]);
-            Assert.Equal(GuessResult.CORRECT, guessResult[4]);
+            Assert.Equal(LetterType.RIGHT_LETTER_WRONG_LOCATION, guessResult[0]);
+            Assert.Equal(LetterType.INCORRECT, guessResult[1]);
+            Assert.Equal(LetterType.INCORRECT, guessResult[2]);
+            Assert.Equal(LetterType.INCORRECT, guessResult[3]);
+            Assert.Equal(LetterType.CORRECT, guessResult[4]);
         }
 
         private void thenResultIs_XXPXC()
         {
-            Assert.Equal(GuessResult.INCORRECT, guessResult[0]);
-            Assert.Equal(GuessResult.INCORRECT, guessResult[1]);
-            Assert.Equal(GuessResult.RIGHT_LETTER_WRONG_LOCATION, guessResult[2]);
-            Assert.Equal(GuessResult.INCORRECT, guessResult[3]);
-            Assert.Equal(GuessResult.CORRECT, guessResult[4]);
+            Assert.Equal(LetterType.INCORRECT, guessResult[0]);
+            Assert.Equal(LetterType.INCORRECT, guessResult[1]);
+            Assert.Equal(LetterType.RIGHT_LETTER_WRONG_LOCATION, guessResult[2]);
+            Assert.Equal(LetterType.INCORRECT, guessResult[3]);
+            Assert.Equal(LetterType.CORRECT, guessResult[4]);
         }
 
         private void thenResultIs_XXXCC()
         {
-            Assert.Equal(GuessResult.INCORRECT, guessResult[0]);
-            Assert.Equal(GuessResult.INCORRECT, guessResult[1]);
-            Assert.Equal(GuessResult.INCORRECT, guessResult[2]);
-            Assert.Equal(GuessResult.CORRECT, guessResult[3]);
-            Assert.Equal(GuessResult.CORRECT, guessResult[4]);
+            Assert.Equal(LetterType.INCORRECT, guessResult[0]);
+            Assert.Equal(LetterType.INCORRECT, guessResult[1]);
+            Assert.Equal(LetterType.INCORRECT, guessResult[2]);
+            Assert.Equal(LetterType.CORRECT, guessResult[3]);
+            Assert.Equal(LetterType.CORRECT, guessResult[4]);
         }
 
 

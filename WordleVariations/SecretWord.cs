@@ -15,10 +15,10 @@ namespace WordleVariations
             secretWord = word.ToUpper();
         }
 
-        public GuessResult[] GuessWord(string guess)
+        public LetterType[] GuessWord(string guess)
         {
             string guessUpper = guess.ToUpper();
-            GuessResult[] result = guessWord(guessUpper);
+            LetterType[] result = guessWord(guessUpper);
 
             return result;
         }
@@ -28,9 +28,9 @@ namespace WordleVariations
             return secretWord;
         }
 
-        private GuessResult[] guessWord(string guess)
+        private LetterType[] guessWord(string guess)
         {
-            GuessResult[] result = new GuessResult[guess.Length];
+            LetterType[] result = new LetterType[guess.Length];
 
             for (int i = 0; i < guess.Length; i++)
             {
@@ -38,12 +38,12 @@ namespace WordleVariations
 
                 if (guessedLetter == secretWord[i])
                 {
-                    result[i] = GuessResult.CORRECT;
+                    result[i] = LetterType.CORRECT;
 
                 }
                 else if (!containsLetter(guessedLetter))
                 {
-                    result[i] = GuessResult.INCORRECT;
+                    result[i] = LetterType.INCORRECT;
 
                 }
                 else
@@ -61,15 +61,15 @@ namespace WordleVariations
 
                         if (truncatedGuessLetterCount >= secretWordLetterCount - correctlyPlaced)
                         {
-                            result[i] = GuessResult.INCORRECT;
+                            result[i] = LetterType.INCORRECT;
                         } else
                         {
-                            result[i] = GuessResult.RIGHT_LETTER_WRONG_LOCATION;
+                            result[i] = LetterType.RIGHT_LETTER_WRONG_LOCATION;
                         }
 
                     } else
                     {
-                        result[i] = GuessResult.RIGHT_LETTER_WRONG_LOCATION;
+                        result[i] = LetterType.RIGHT_LETTER_WRONG_LOCATION;
                     }
                 }
             }
