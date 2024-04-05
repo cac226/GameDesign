@@ -6,7 +6,7 @@ using System.Text;
 namespace WordleVariations {
     /*
      TODO: include a "you got this in X guesses" 
-     TODO: add instructions 
+     TODO: add "give up" option 
      */
     public class Runner {
         public static void RunGame()
@@ -14,6 +14,10 @@ namespace WordleVariations {
             GameInstance instance = new GameInstance(WordGetter.CreateFromTextFile());
             instance.SetupNewGame();
             bool playAgain = true;
+
+            Console.WriteLine("Try to guess the secret word in as few guesses as possible! " +
+                "Correct letters correctly placed will be printed as capital letters, " +
+                "while correct letters in the wrong location will be printed as lowercase letters.");
 
             while(playAgain)
             {
@@ -42,7 +46,7 @@ namespace WordleVariations {
                     }
                 } else
                 {
-                    Console.WriteLine("not a valid word!");
+                    Console.WriteLine("Not a valid guess!");
                 }
             }
         }
