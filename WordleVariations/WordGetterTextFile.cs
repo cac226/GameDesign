@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -8,21 +7,21 @@ using System.Threading.Tasks;
 
 namespace WordleVariations
 {
-    internal class WordGetter : IGetWords
+    internal class WordGetterTextFile : IGetWords
     {
         private static readonly string FIVE_LETTER_WORD_FILE_PATH = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"FiveLetterWords.txt");
         private readonly string[] fiveLetterWords;
 
-        private WordGetter(string[] fiveLetterWords)
+        private WordGetterTextFile(string[] fiveLetterWords)
         {
             this.fiveLetterWords = fiveLetterWords;
         }
 
-        public static WordGetter CreateFromTextFile()
+        public static WordGetterTextFile Create()
         {
             List<string> words = new List<string>();
 
-            using(StreamReader reader = new StreamReader(FIVE_LETTER_WORD_FILE_PATH))
+            using (StreamReader reader = new StreamReader(FIVE_LETTER_WORD_FILE_PATH))
             {
                 string line;
                 while ((line = reader.ReadLine()) != null)
@@ -31,19 +30,12 @@ namespace WordleVariations
                 }
             }
 
-            return new WordGetter(words.ToArray());
+            return new WordGetterTextFile(words.ToArray());
         }
 
-        public SecretWord GetRandomFiveLetterWord()
+        public string[] GetFiveLetterWords()
         {
-            Random random = new Random();
-            int index = random.Next(fiveLetterWords.Length);
-            return new SecretWord(fiveLetterWords[index]);
-        }
-
-        public bool IsValidFiveLetterWord(string word)
-        {
-            return fiveLetterWords.Contains(word);
+            return fiveLetterWords;
         }
     }
 }

@@ -11,7 +11,7 @@ namespace WordleVariations {
     public class Runner {
         public static void RunGame()
         {
-            GameInstance instance = new GameInstance(WordGetter.CreateFromTextFile());
+            GameInstance instance = new GameInstance(WordGetterTextFile.Create());
             instance.SetupNewGame();
             bool playAgain = true;
 

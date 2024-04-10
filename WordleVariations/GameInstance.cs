@@ -3,22 +3,22 @@ namespace WordleVariations
 {
 	internal class GameInstance
 	{
-        private IGetWords wordGetter;
+		private SecretWordHandler wordHandler;
 		private SecretWord secretWord;
 		private int secretWordLength;
 		private int guessCount;
 
         public GameInstance(IGetWords inpWordGetter)
 		{
-			wordGetter = inpWordGetter;
+			wordHandler = new SecretWordHandler(inpWordGetter);
 			secretWordLength = 5;
-            secretWord = wordGetter.GetRandomFiveLetterWord();
+            secretWord = wordHandler.GetRandomFiveLetterWord();
             guessCount = 0;
         }
 
 		public void SetupNewGame()
 		{
-			secretWord = wordGetter.GetRandomFiveLetterWord();
+			secretWord = wordHandler.GetRandomFiveLetterWord();
 			guessCount = 0;
 		}
 
@@ -47,7 +47,7 @@ namespace WordleVariations
 
 		private bool isValidGuess(string guess)
 		{
-			return guess.Length == secretWordLength && wordGetter.IsValidFiveLetterWord(guess);
+			return guess.Length == secretWordLength && wordHandler.IsValidFiveLetterWord(guess);
 		}
 	}
 }
