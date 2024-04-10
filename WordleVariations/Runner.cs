@@ -7,6 +7,7 @@ namespace WordleVariations {
     /*
      TODO: include a "you got this in X guesses" 
      TODO: add "give up" option 
+     TODO: don't let users repeat guesses 
      */
     public class Runner {
         public static void RunGame()

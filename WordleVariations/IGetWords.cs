@@ -8,6 +8,6 @@ namespace WordleVariations
 {
     internal interface IGetWords
     {
-        public string[] GetFiveLetterWords();
+        public string[] GetFiveLetterWords(); // must be in all caps TODO: add way to guarantee this (maybe it's a list of secret words and not strings?) 
     }
 }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace WordleVariations
 {
     /// <summary>
-    /// Creates and validates possible words
+    /// Creates and validates possible secret words
     /// </summary>
     internal class SecretWordHandler 
     {
