@@ -28,6 +28,11 @@ namespace WordleVariations
             return secretWord;
         }
 
+        public bool IsGuessCorrect(string guess)
+        {
+            return secretWord.Equals(guess.ToUpper());
+        }
+
         private LetterType[] guessWord(string guess)
         {
             LetterType[] result = new LetterType[guess.Length];

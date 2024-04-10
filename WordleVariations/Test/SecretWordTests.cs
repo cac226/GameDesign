@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using WordleVariations;
 
 
 
-namespace WordleVariations
+namespace WordleVariations.Test
 {
     public class SecretWordTests
     {
@@ -60,9 +61,9 @@ namespace WordleVariations
 
         private void thenAllIncorrect()
         {
-            for(int i = 0; i < guessResult.Length; i++)
+            for (int i = 0; i < guessResult.Length; i++)
             {
-                Xunit.Assert.Equal(LetterType.INCORRECT, guessResult[i]);
+                Assert.Equal(LetterType.INCORRECT, guessResult[i]);
             }
         }
 
@@ -70,7 +71,7 @@ namespace WordleVariations
         {
             for (int i = 0; i < guessResult.Length; i++)
             {
-                Xunit.Assert.Equal(LetterType.CORRECT, guessResult[i]);
+                Assert.Equal(LetterType.CORRECT, guessResult[i]);
             }
         }
 
@@ -79,9 +80,9 @@ namespace WordleVariations
          * X = Incorrect 
          * P = Partially correct (right letter wrong location) 
          */
-        
 
-        
+
+
         private void thenResultIs_PXXPX()
         {
             Assert.Equal(LetterType.RIGHT_LETTER_WRONG_LOCATION, guessResult[0]);
@@ -135,7 +136,7 @@ namespace WordleVariations
 
         }
 
-        [Fact] 
+        [Fact]
         public void Chess_GuessChess()
         {
             secretWordChess();
@@ -169,7 +170,7 @@ namespace WordleVariations
         {
             secretWordFacts();
             whenGuessChess();
-            
+
             thenResultIs_PXXXC();
         }
 
@@ -184,7 +185,7 @@ namespace WordleVariations
             thenResultIs_PXXPX();
         }
 
-        
+
 
         #endregion
     }
