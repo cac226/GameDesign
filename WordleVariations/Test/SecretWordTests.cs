@@ -12,23 +12,23 @@ namespace WordleVariations.Test
 {
     public class SecretWordTests
     {
-        private SecretWord secretWord;
+        private SecretWordContainer secretWord;
         private LetterType[] guessResult;
 
         #region givens
         private void secretWordChess()
         {
-            secretWord = new SecretWord("Chess");
+            secretWord = new SecretWordContainer("Chess");
         }
 
         private void secretWordScuba()
         {
-            secretWord = new SecretWord("scUBA");
+            secretWord = new SecretWordContainer("scUBA");
         }
 
         private void secretWordFacts()
         {
-            secretWord = new SecretWord("facts");
+            secretWord = new SecretWordContainer("facts");
         }
 
         #endregion
@@ -118,7 +118,6 @@ namespace WordleVariations.Test
             Assert.Equal(LetterType.CORRECT, guessResult[3]);
             Assert.Equal(LetterType.CORRECT, guessResult[4]);
         }
-
 
         #endregion
 

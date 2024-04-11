@@ -4,7 +4,7 @@ namespace WordleVariations
 	internal class GameInstance
 	{
 		private SecretWordRepository wordHandler;
-		private SecretWord secretWord;
+		private SecretWordContainer secretWord;
 		private int secretWordLength;
 		private int guessCount;
 
@@ -34,7 +34,7 @@ namespace WordleVariations
 
 		public bool IsSecretWord(string guess)
 		{
-            return string.Equals(secretWord.RevealWord(), guess, StringComparison.OrdinalIgnoreCase);
+            return secretWord.IsCorrectGuess(guess);
         }
 
 		private GuessResponseData buildGuessResult(string validGuess)

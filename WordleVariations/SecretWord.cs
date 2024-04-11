@@ -8,105 +8,24 @@ namespace WordleVariations
 {
     internal class SecretWord
     {
-        private readonly string secretWord; 
+        private readonly string secretWord;
+        private bool hasBeenRevealed;
 
         public SecretWord(string word)
         {
             secretWord = word.ToUpper();
-        }
-
-        public LetterType[] GuessWord(string guess)
-        {
-            string guessUpper = guess.ToUpper();
-            LetterType[] result = guessWord(guessUpper);
-
-            return result;
+            hasBeenRevealed = false;
         }
 
         public string RevealWord()
         {
+            hasBeenRevealed = true;
             return secretWord;
         }
 
-        public bool IsGuessCorrect(string guess)
+        public bool HasBeenRevealed()
         {
-            return secretWord.Equals(guess.ToUpper());
+            return hasBeenRevealed;
         }
-
-        private LetterType[] guessWord(string guess)
-        {
-            LetterType[] result = new LetterType[guess.Length];
-
-            for (int i = 0; i < guess.Length; i++)
-            {
-                char guessedLetter = guess[i];
-
-                if (guessedLetter == secretWord[i])
-                {
-                    result[i] = LetterType.CORRECT;
-
-                }
-                else if (!containsLetter(guessedLetter))
-                {
-                    result[i] = LetterType.INCORRECT;
-
-                }
-                else
-                {
-                    // if a secret word has 1 of a letter, but the guess has 2 of that letter, we only want one of those guess letters to be marked as correct 
-                    // e.g. if the secret word is "FACTS" and a user guesses "CHESS" the first S should be marked as incorrect and the second marked as correct 
-
-                    int secretWordLetterCount = countOccurances(secretWord, guessedLetter);
-                    int guessLetterCount = countOccurances(guess, guessedLetter);
-
-                    if(guessLetterCount > secretWordLetterCount)
-                    {
-                        int truncatedGuessLetterCount = countOccurances(guess.Substring(0, i), guessedLetter); 
-                        int correctlyPlaced = countCorrectOccurances(guess, guessedLetter);
-
-                        if (truncatedGuessLetterCount >= secretWordLetterCount - correctlyPlaced)
-                        {
-                            result[i] = LetterType.INCORRECT;
-                        } else
-                        {
-                            result[i] = LetterType.RIGHT_LETTER_WRONG_LOCATION;
-                        }
-
-                    } else
-                    {
-                        result[i] = LetterType.RIGHT_LETTER_WRONG_LOCATION;
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        private bool containsLetter(char c)
-        {
-            return secretWord.Contains(c);
-        }
-
-        private int countCorrectOccurances(string guess, char letter)
-        {
-            int count = 0;
-
-            for(int i = 0; i < guess.Length; i++)
-            {
-                if (guess[i] == letter && secretWord[i] == letter)
-                {
-                    count++;
-                }
-            }
-
-            return count;
-        }
-
-        private static int countOccurances(string word, char targetLetter)
-        {
-            return word.Count(c => c == targetLetter);
-        }
-
-        
     }
 }

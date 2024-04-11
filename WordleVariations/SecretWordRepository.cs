@@ -20,21 +20,21 @@ namespace WordleVariations
             this.wordGetter = wordGetter;
         }
 
-        public SecretWord GetRandomFiveLetterWord()
+        public SecretWordContainer GetRandomFiveLetterWord()
         {
-            SecretWord[] result = GetRandomFiveLetterWords(1);
+            SecretWordContainer[] result = GetRandomFiveLetterWords(1);
             return result[0];
         }
 
-        public SecretWord[] GetRandomFiveLetterWords(int numWords)
+        public SecretWordContainer[] GetRandomFiveLetterWords(int numWords)
         {
             int[] indices = getDistinctIndices(numWords);
 
-            SecretWord[] result = new SecretWord[numWords];
+            SecretWordContainer[] result = new SecretWordContainer[numWords];
 
             for(int i = 0; i < numWords; i++)
             {
-                result[i] = new SecretWord(wordGetter.GetFiveLetterWords()[indices[i]]);
+                result[i] = new SecretWordContainer(wordGetter.GetFiveLetterWords()[indices[i]]);
             }
 
             return result;

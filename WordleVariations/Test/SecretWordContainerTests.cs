@@ -8,7 +8,7 @@ using Xunit;
 
 namespace WordleVariations.Test
 {
-    public class SecretWordHandlerTests
+    public class SecretWordContainerTests
     {
         private GetWordsStub wordGetterStub;
         private SecretWordRepository handler;
@@ -16,8 +16,8 @@ namespace WordleVariations.Test
         private string[] oneWordList = new string[] { "COOKS" };
         private string[] fiveWordList = new string[] { "COOKS", "SCUBA", "POINT", "WHARF", "QUEUE" };
 
-        private SecretWord secretWord;
-        private SecretWord[] secretWords;
+        private SecretWordContainer secretWord;
+        private SecretWordContainer[] secretWords;
 
         #region givens
 
@@ -56,8 +56,8 @@ namespace WordleVariations.Test
 
         private void ThenSecretWordIsOnlyWord()
         {
-            Assert.True(secretWord.IsGuessCorrect("COOKS"));
-            Assert.True(secretWord.IsGuessCorrect("cooks"));
+            Assert.True(secretWord.Equals("COOKS"));
+            Assert.True(secretWord.Equals("cooks"));
         }
 
         private void ThenSecretWordIsValidEntry()
