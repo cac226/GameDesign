@@ -14,14 +14,21 @@ namespace WordleVariations.Test
         private SecretWordHandler handler;
 
         private string[] oneWordList = new string[] { "COOKS" };
+        private string[] fiveWordList = new string[] { "COOKS", "SCUBA", "POINT", "WHARF", "QUEUE" };
 
         private SecretWord secretWord;
+        private SecretWord[] secretWords;
 
         #region givens
 
         private void Given1Word()
         {
             wordGetterStub = new GetWordsStub(oneWordList);
+        }
+
+        private void Given5Words()
+        {
+            wordGetterStub = new GetWordsStub(fiveWordList);
         }
 
         private void GivenSecretWordHandler()
@@ -38,11 +45,16 @@ namespace WordleVariations.Test
             secretWord = handler.GetRandomFiveLetterWord();
         }
 
+        private void WhenGenerateFiveSecretWords()
+        {
+            secretWords = handler.GetRandomFiveLetterWords(5);
+        }
+
         #endregion
 
         #region thens
 
-        private void ThenSecretWordIsOnlyWord ()
+        private void ThenSecretWordIsOnlyWord()
         {
             Assert.True(secretWord.IsGuessCorrect("COOKS"));
             Assert.True(secretWord.IsGuessCorrect("cooks"));
@@ -56,6 +68,12 @@ namespace WordleVariations.Test
         private void ThenScubaIsInvalidEntry()
         {
             Assert.False(handler.IsValidFiveLetterWord("scuba"));
+        }
+
+        private void ThenAllSecretWordsDistinct()
+        {
+            string[] secretWordStrings = secretWords.Select(x => x.RevealWord()).ToArray();
+            Assert.Equal(secretWordStrings.Length, secretWordStrings.Distinct().Count());
         }
 
         #endregion
@@ -93,6 +111,26 @@ namespace WordleVariations.Test
             WhenGenerateSecretWord();
 
             ThenScubaIsInvalidEntry();
+        }
+
+        [Fact]
+        public void TestFiveWordList_AllSecretWordsDistinct()
+        {
+            Given5Words();
+            GivenSecretWordHandler();
+
+            WhenGenerateFiveSecretWords();
+
+            ThenAllSecretWordsDistinct();
+        }
+
+        [Fact]
+        public void TestOneWordList_AttemptGenerateFiveSecretWords()
+        {
+            Given1Word();
+            GivenSecretWordHandler();
+
+            Assert.Throws<InvalidDataException>(() => WhenGenerateFiveSecretWords());
         }
 
         #endregion
