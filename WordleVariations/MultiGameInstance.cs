@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WordleVariations.DataObjects;
 
 namespace WordleVariations
 {
@@ -33,11 +34,11 @@ namespace WordleVariations
             result.SetupNewGame();
             return result;
         }
-        public GuessResponseData[] MakeGuess(string guess)
+        public GuessResponseData MakeGuess(string guess)
         {
             if (!isValidGuess(guess))
             {
-                return Enumerable.Repeat(GuessResponseData.CreateDataInvalidGuess(guessCount), secretWords.Length).ToArray();
+                return GuessResponseData.CreateDataInvalidGuess(guessCount);
             }
 
             return buildGuessResult(guess);
@@ -55,24 +56,26 @@ namespace WordleVariations
             return result;
         }
 
-        private GuessResponseData[] buildGuessResult(string validGuess)
+        private GuessResponseData buildGuessResult(string validGuess)
         {
             guessCount++;
-            GuessResponseData[] result = new GuessResponseData[secretWords.Length];
+            WordFeedback[] wordFeedback = new WordFeedback[secretWords.Length];
 
-            for(int i = 0; i <  result.Length; i++)
+            for(int i = 0; i < wordFeedback.Length; i++)
             {
                 if (!secretWords[i].HasBeenRevealed())
                 {
-                    LetterType[] letterResult = secretWords[i].GuessWord(validGuess);
+                    LetterResponse[] letterResult = secretWords[i].GuessWord(validGuess);
                     bool hasWon = secretWords[i].IsCorrectGuess(validGuess);
-                    result[i] = GuessResponseData.CreateDataValidGuess(letterResult, hasWon, guessCount);
+                    wordFeedback[i] = WordFeedback.Create(letterResult);
                 } else
                 {
-                    result[i] = GuessResponseData.CreateDataValidGuess(new LetterType[0], true, guessCount);
+                    wordFeedback[i] = WordFeedback.CreateEmptyCorrectResponse();
                 }
                 
             }
+
+            GuessResponseData result = GuessResponseData.CreateDataValidGuess(wordFeedback, guessCount);
 
             return result;
         }

@@ -4,16 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
-using WordleVariations;
-
-
+using WordleVariations.DataObjects;
 
 namespace WordleVariations.Test
 {
     public class SecretWordTests
     {
         private SecretWordContainer secretWord;
-        private LetterType[] guessResult;
+        private LetterResponse[] guessResult;
 
         #region givens
         private void secretWordChess()
@@ -63,7 +61,7 @@ namespace WordleVariations.Test
         {
             for (int i = 0; i < guessResult.Length; i++)
             {
-                Assert.Equal(LetterType.INCORRECT, guessResult[i]);
+                Assert.Equal(LetterResponse.INCORRECT, guessResult[i]);
             }
         }
 
@@ -71,7 +69,7 @@ namespace WordleVariations.Test
         {
             for (int i = 0; i < guessResult.Length; i++)
             {
-                Assert.Equal(LetterType.CORRECT, guessResult[i]);
+                Assert.Equal(LetterResponse.CORRECT, guessResult[i]);
             }
         }
 
@@ -85,38 +83,38 @@ namespace WordleVariations.Test
 
         private void thenResultIs_PXXPX()
         {
-            Assert.Equal(LetterType.RIGHT_LETTER_WRONG_LOCATION, guessResult[0]);
-            Assert.Equal(LetterType.INCORRECT, guessResult[1]);
-            Assert.Equal(LetterType.INCORRECT, guessResult[2]);
-            Assert.Equal(LetterType.RIGHT_LETTER_WRONG_LOCATION, guessResult[3]);
-            Assert.Equal(LetterType.INCORRECT, guessResult[4]);
+            Assert.Equal(LetterResponse.RIGHT_LETTER_WRONG_LOCATION, guessResult[0]);
+            Assert.Equal(LetterResponse.INCORRECT, guessResult[1]);
+            Assert.Equal(LetterResponse.INCORRECT, guessResult[2]);
+            Assert.Equal(LetterResponse.RIGHT_LETTER_WRONG_LOCATION, guessResult[3]);
+            Assert.Equal(LetterResponse.INCORRECT, guessResult[4]);
         }
 
         private void thenResultIs_PXXXC()
         {
-            Assert.Equal(LetterType.RIGHT_LETTER_WRONG_LOCATION, guessResult[0]);
-            Assert.Equal(LetterType.INCORRECT, guessResult[1]);
-            Assert.Equal(LetterType.INCORRECT, guessResult[2]);
-            Assert.Equal(LetterType.INCORRECT, guessResult[3]);
-            Assert.Equal(LetterType.CORRECT, guessResult[4]);
+            Assert.Equal(LetterResponse.RIGHT_LETTER_WRONG_LOCATION, guessResult[0]);
+            Assert.Equal(LetterResponse.INCORRECT, guessResult[1]);
+            Assert.Equal(LetterResponse.INCORRECT, guessResult[2]);
+            Assert.Equal(LetterResponse.INCORRECT, guessResult[3]);
+            Assert.Equal(LetterResponse.CORRECT, guessResult[4]);
         }
 
         private void thenResultIs_XXPXC()
         {
-            Assert.Equal(LetterType.INCORRECT, guessResult[0]);
-            Assert.Equal(LetterType.INCORRECT, guessResult[1]);
-            Assert.Equal(LetterType.RIGHT_LETTER_WRONG_LOCATION, guessResult[2]);
-            Assert.Equal(LetterType.INCORRECT, guessResult[3]);
-            Assert.Equal(LetterType.CORRECT, guessResult[4]);
+            Assert.Equal(LetterResponse.INCORRECT, guessResult[0]);
+            Assert.Equal(LetterResponse.INCORRECT, guessResult[1]);
+            Assert.Equal(LetterResponse.RIGHT_LETTER_WRONG_LOCATION, guessResult[2]);
+            Assert.Equal(LetterResponse.INCORRECT, guessResult[3]);
+            Assert.Equal(LetterResponse.CORRECT, guessResult[4]);
         }
 
         private void thenResultIs_XXXCC()
         {
-            Assert.Equal(LetterType.INCORRECT, guessResult[0]);
-            Assert.Equal(LetterType.INCORRECT, guessResult[1]);
-            Assert.Equal(LetterType.INCORRECT, guessResult[2]);
-            Assert.Equal(LetterType.CORRECT, guessResult[3]);
-            Assert.Equal(LetterType.CORRECT, guessResult[4]);
+            Assert.Equal(LetterResponse.INCORRECT, guessResult[0]);
+            Assert.Equal(LetterResponse.INCORRECT, guessResult[1]);
+            Assert.Equal(LetterResponse.INCORRECT, guessResult[2]);
+            Assert.Equal(LetterResponse.CORRECT, guessResult[3]);
+            Assert.Equal(LetterResponse.CORRECT, guessResult[4]);
         }
 
         #endregion

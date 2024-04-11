@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using WordleVariations.DataObjects;
 
-namespace WordleVariations {
+namespace WordleVariations
+{
     /*
      TODO: include a "you got this in X guesses" 
      TODO: add "give up" option 
@@ -33,13 +35,13 @@ namespace WordleVariations {
                 Console.Write("Guess: ");
                 string guess = Console.ReadLine();
 
-                LetterType[] result;
-                GuessResponseData[] response = instance.MakeGuess(guess);
-                if (response[0].WasLastGuessValid())
+                LetterResponse[] result;
+                GuessResponseData response = instance.MakeGuess(guess);
+                if (response.WasLastGuessValid())
                 {
                     printResponse(guess, response);
 
-                    if (response.All(r => r.HasWon()))
+                    if (response.HasWon())
                     {
                         wonGame(response);
                     }
@@ -50,19 +52,19 @@ namespace WordleVariations {
             }
         }
 
-        private void printResponse(string guess, GuessResponseData[] responses)
+        private void printResponse(string guess, GuessResponseData response)
         {
-            foreach(GuessResponseData response in responses)
+            foreach(WordFeedback word in response.GetWordFeedback())
             {
-                string responsePrintable = getWordGuessString(response.GetLetterData(), guess);
+                string responsePrintable = getWordGuessString(word.GetLetterResponse(), guess);
                 Console.Write(responsePrintable + "\t\t");
             }
             Console.WriteLine();
         }
 
-        private void wonGame(GuessResponseData[] winningResponse)
+        private void wonGame(GuessResponseData winningResponse)
         {
-            int highestGuessWord = winningResponse.Max(response => response.GuessCount());
+            int highestGuessWord = winningResponse.GuessCount();
 
             Console.WriteLine("You won with " + highestGuessWord + " guesses! Play again? (Y/N)");
             string userResponse = Console.ReadLine();
@@ -77,7 +79,7 @@ namespace WordleVariations {
             }
         }
 
-        private static string getWordGuessString(LetterType[] guessResult, string guess)
+        private static string getWordGuessString(LetterResponse[] guessResult, string guess)
         {
             if(guessResult.Length == 0)
             {
@@ -88,10 +90,10 @@ namespace WordleVariations {
             {
                 switch(guessResult[i])
                 {
-                    case LetterType.CORRECT:
+                    case LetterResponse.CORRECT:
                         result[i] = guess.ToUpper()[i];
                         break;
-                    case LetterType.RIGHT_LETTER_WRONG_LOCATION:
+                    case LetterResponse.RIGHT_LETTER_WRONG_LOCATION:
                         result[i] = guess.ToLower()[i];
                         break;
                     default:

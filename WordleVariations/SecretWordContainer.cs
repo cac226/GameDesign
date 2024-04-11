@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WordleVariations.DataObjects;
 
 namespace WordleVariations
 {
@@ -35,10 +36,10 @@ namespace WordleVariations
             return string.Equals(secretWord.PeekWord(), guess, StringComparison.OrdinalIgnoreCase);
         }
 
-        public LetterType[] GuessWord(string guess)
+        public LetterResponse[] GuessWord(string guess)
         {
             string guessUpper = guess.ToUpper();
-            LetterType[] result = guessWord(guessUpper);
+            LetterResponse[] result = guessWord(guessUpper);
 
             if(IsCorrectGuess(guess))
             {
@@ -72,9 +73,9 @@ namespace WordleVariations
 
         #region private methods
 
-        private LetterType[] guessWord(string guess)
+        private LetterResponse[] guessWord(string guess)
         {
-            LetterType[] result = new LetterType[guess.Length];
+            LetterResponse[] result = new LetterResponse[guess.Length];
             string secretWord = this.secretWord.PeekWord();
 
             for (int i = 0; i < guess.Length; i++)
@@ -83,12 +84,12 @@ namespace WordleVariations
 
                 if (guessedLetter == secretWord[i])
                 {
-                    result[i] = LetterType.CORRECT;
+                    result[i] = LetterResponse.CORRECT;
 
                 }
                 else if (!containsLetter(guessedLetter))
                 {
-                    result[i] = LetterType.INCORRECT;
+                    result[i] = LetterResponse.INCORRECT;
 
                 }
                 else
@@ -106,17 +107,17 @@ namespace WordleVariations
 
                         if (truncatedGuessLetterCount >= secretWordLetterCount - correctlyPlaced)
                         {
-                            result[i] = LetterType.INCORRECT;
+                            result[i] = LetterResponse.INCORRECT;
                         }
                         else
                         {
-                            result[i] = LetterType.RIGHT_LETTER_WRONG_LOCATION;
+                            result[i] = LetterResponse.RIGHT_LETTER_WRONG_LOCATION;
                         }
 
                     }
                     else
                     {
-                        result[i] = LetterType.RIGHT_LETTER_WRONG_LOCATION;
+                        result[i] = LetterResponse.RIGHT_LETTER_WRONG_LOCATION;
                     }
                 }
             }

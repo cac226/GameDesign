@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WordleVariations
+namespace WordleVariations.DataObjects
 {
-    internal enum LetterType // TODO: rename, maybe to LetterFeedback? LetterResponse?
+    internal enum LetterResponse
     {
         CORRECT = 0,
         INCORRECT = 1,
