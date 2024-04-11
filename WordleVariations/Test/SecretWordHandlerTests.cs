@@ -11,7 +11,7 @@ namespace WordleVariations.Test
     public class SecretWordHandlerTests
     {
         private GetWordsStub wordGetterStub;
-        private SecretWordHandler handler;
+        private SecretWordRepository handler;
 
         private string[] oneWordList = new string[] { "COOKS" };
         private string[] fiveWordList = new string[] { "COOKS", "SCUBA", "POINT", "WHARF", "QUEUE" };
@@ -33,7 +33,7 @@ namespace WordleVariations.Test
 
         private void GivenSecretWordHandler()
         {
-            handler = new SecretWordHandler(wordGetterStub);
+            handler = new SecretWordRepository(wordGetterStub);
         }
 
         #endregion

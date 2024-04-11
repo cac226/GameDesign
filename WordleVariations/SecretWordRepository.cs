@@ -11,11 +11,11 @@ namespace WordleVariations
     /// <summary>
     /// Creates and validates possible secret words
     /// </summary>
-    internal class SecretWordHandler 
+    internal class SecretWordRepository 
     {
         IGetWords wordGetter;
 
-        public SecretWordHandler(IGetWords wordGetter)
+        public SecretWordRepository(IGetWords wordGetter)
         {
             this.wordGetter = wordGetter;
         }

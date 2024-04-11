@@ -3,14 +3,14 @@ namespace WordleVariations
 {
 	internal class GameInstance
 	{
-		private SecretWordHandler wordHandler;
+		private SecretWordRepository wordHandler;
 		private SecretWord secretWord;
 		private int secretWordLength;
 		private int guessCount;
 
         public GameInstance(IGetWords inpWordGetter)
 		{
-			wordHandler = new SecretWordHandler(inpWordGetter);
+			wordHandler = new SecretWordRepository(inpWordGetter);
 			secretWordLength = 5;
             secretWord = wordHandler.GetRandomFiveLetterWord();
             guessCount = 0;
