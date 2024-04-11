@@ -1,3 +1,4 @@
 ﻿using WordleVariations;
 
-Runner.RunGame();
+Runner runner = new Runner();
+runner.RunGame();

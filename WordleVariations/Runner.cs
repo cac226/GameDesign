@@ -10,11 +10,19 @@ namespace WordleVariations {
      TODO: don't let users repeat guesses 
      */
     public class Runner {
-        public static void RunGame()
+
+        private GameInstance instance;
+        bool playAgain;
+
+        public Runner()
         {
-            GameInstance instance = new GameInstance(WordGetterTextFile.Create());
+            instance = new GameInstance(WordGetterTextFile.Create());
+            playAgain = true;
+        }
+
+        public void RunGame()
+        {
             instance.SetupNewGame();
-            bool playAgain = true;
 
             Console.WriteLine("Try to guess the secret word in as few guesses as possible! " +
                 "Correct letters correctly placed will be printed as capital letters, " +
@@ -29,26 +37,37 @@ namespace WordleVariations {
                 GuessResponseData response = instance.MakeGuess(guess);
                 if(response.WasLastGuessValid())
                 {
-                    string guessPrintable = getWordGuessString(response.GetLetterData(), guess);
-                    Console.WriteLine(guessPrintable);
+                    printResponse(guess, response);
 
                     if (instance.IsSecretWord(guess))
                     {
-                        Console.WriteLine("You won with " + response.GuessCount() + " guesses! Play again? (Y/N)");
-                        string userResponse = Console.ReadLine();
-
-                        if (string.Equals(userResponse, "N", StringComparison.OrdinalIgnoreCase))
-                        {
-                            playAgain = false;
-                        } else
-                        {
-                            instance.SetupNewGame();
-                        }
+                        wonGame(response);
                     }
                 } else
                 {
                     Console.WriteLine("Not a valid guess!");
                 }
+            }
+        }
+
+        private void printResponse(string guess, GuessResponseData response)
+        {
+            string responsePrintable = getWordGuessString(response.GetLetterData(), guess);
+            Console.WriteLine(responsePrintable);
+        }
+
+        private void wonGame(GuessResponseData winningResponse)
+        {
+            Console.WriteLine("You won with " + winningResponse.GuessCount() + " guesses! Play again? (Y/N)");
+            string userResponse = Console.ReadLine();
+
+            if (string.Equals(userResponse, "N", StringComparison.OrdinalIgnoreCase))
+            {
+                playAgain = false;
+            }
+            else
+            {
+                instance.SetupNewGame();
             }
         }
 
