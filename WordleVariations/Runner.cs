@@ -11,12 +11,12 @@ namespace WordleVariations {
      */
     public class Runner {
 
-        private GameInstance instance;
+        private MultiGameInstance instance;
         bool playAgain;
 
         public Runner()
         {
-            instance = new GameInstance(WordGetterTextFile.Create());
+            instance = MultiGameInstance.Create(WordGetterTextFile.Create(), 2);
             playAgain = true;
         }
 
@@ -34,12 +34,12 @@ namespace WordleVariations {
                 string guess = Console.ReadLine();
 
                 LetterType[] result;
-                GuessResponseData response = instance.MakeGuess(guess);
-                if(response.WasLastGuessValid())
+                GuessResponseData[] response = instance.MakeGuess(guess);
+                if (response[0].WasLastGuessValid())
                 {
                     printResponse(guess, response);
 
-                    if (instance.IsSecretWord(guess))
+                    if (response.All(r => r.HasWon()))
                     {
                         wonGame(response);
                     }
@@ -50,15 +50,21 @@ namespace WordleVariations {
             }
         }
 
-        private void printResponse(string guess, GuessResponseData response)
+        private void printResponse(string guess, GuessResponseData[] responses)
         {
-            string responsePrintable = getWordGuessString(response.GetLetterData(), guess);
-            Console.WriteLine(responsePrintable);
+            foreach(GuessResponseData response in responses)
+            {
+                string responsePrintable = getWordGuessString(response.GetLetterData(), guess);
+                Console.Write(responsePrintable + "\t\t");
+            }
+            Console.WriteLine();
         }
 
-        private void wonGame(GuessResponseData winningResponse)
+        private void wonGame(GuessResponseData[] winningResponse)
         {
-            Console.WriteLine("You won with " + winningResponse.GuessCount() + " guesses! Play again? (Y/N)");
+            int highestGuessWord = winningResponse.Max(response => response.GuessCount());
+
+            Console.WriteLine("You won with " + highestGuessWord + " guesses! Play again? (Y/N)");
             string userResponse = Console.ReadLine();
 
             if (string.Equals(userResponse, "N", StringComparison.OrdinalIgnoreCase))
@@ -73,6 +79,10 @@ namespace WordleVariations {
 
         private static string getWordGuessString(LetterType[] guessResult, string guess)
         {
+            if(guessResult.Length == 0)
+            {
+                return "     ";
+            }
             char[] result = new char[guess.Length];
             for(int i = 0; i < guess.Length; i++)
             {

@@ -128,7 +128,7 @@ namespace WordleVariations.Test
         {
             secretWordChess();
 
-            Assert.Equal("CHESS", secretWord.RevealWord());
+            Assert.Equal("CHESS", secretWord.PeekWord());
 
             whenGuessPoint();
             thenAllIncorrect();
@@ -140,7 +140,7 @@ namespace WordleVariations.Test
         {
             secretWordChess();
 
-            Assert.Equal("CHESS", secretWord.RevealWord());
+            Assert.Equal("CHESS", secretWord.PeekWord());
 
             whenGuessChess();
             thenAllCorrect();
@@ -178,7 +178,7 @@ namespace WordleVariations.Test
         {
             secretWordScuba();
 
-            Assert.Equal("SCUBA", secretWord.RevealWord());
+            Assert.Equal("SCUBA", secretWord.PeekWord());
 
             whenGuessChess();
             thenResultIs_PXXPX();

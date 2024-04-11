@@ -17,6 +17,11 @@ namespace WordleVariations
             hasBeenRevealed = false;
         }
 
+        public string PeekWord()
+        {
+            return secretWord;
+        }
+
         public string RevealWord()
         {
             hasBeenRevealed = true;

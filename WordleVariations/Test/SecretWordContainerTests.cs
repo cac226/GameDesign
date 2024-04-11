@@ -62,7 +62,9 @@ namespace WordleVariations.Test
 
         private void ThenSecretWordIsValidEntry()
         {
-            Assert.True(handler.IsValidFiveLetterWord(secretWord.RevealWord()));
+            Assert.True(handler.IsValidFiveLetterWord(secretWord.PeekWord()));
+            Assert.True(handler.IsValidFiveLetterWord(secretWord.PeekWord().ToLower()));
+            Assert.True(handler.IsValidFiveLetterWord(secretWord.PeekWord().ToUpper()));
         }
 
         private void ThenScubaIsInvalidEntry()
@@ -72,7 +74,7 @@ namespace WordleVariations.Test
 
         private void ThenAllSecretWordsDistinct()
         {
-            string[] secretWordStrings = secretWords.Select(x => x.RevealWord()).ToArray();
+            string[] secretWordStrings = secretWords.Select(x => x.PeekWord()).ToArray();
             Assert.Equal(secretWordStrings.Length, secretWordStrings.Distinct().Count());
         }
 

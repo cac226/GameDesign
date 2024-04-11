@@ -71,7 +71,7 @@ namespace WordleVariations
 
         public bool IsValidFiveLetterWord(string word)
         {
-            return wordGetter.GetFiveLetterWords().Contains(word);
+            return word.Length == 5 && wordGetter.GetFiveLetterWords().ToList().Contains(word, StringComparer.OrdinalIgnoreCase);
         }
     }
 }

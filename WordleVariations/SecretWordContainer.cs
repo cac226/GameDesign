@@ -20,20 +20,30 @@ namespace WordleVariations
             secretWord = new SecretWord(str); 
         }
 
-        public string RevealWord()
+        public string PeekWord()
         {
-            return secretWord.RevealWord();
+            return secretWord.PeekWord();
+        }
+
+        public bool HasBeenRevealed()
+        {
+            return secretWord.HasBeenRevealed();
         }
 
         public bool IsCorrectGuess(string guess)
         {
-            return string.Equals(secretWord.RevealWord(), guess, StringComparison.OrdinalIgnoreCase);
+            return string.Equals(secretWord.PeekWord(), guess, StringComparison.OrdinalIgnoreCase);
         }
 
         public LetterType[] GuessWord(string guess)
         {
             string guessUpper = guess.ToUpper();
             LetterType[] result = guessWord(guessUpper);
+
+            if(IsCorrectGuess(guess))
+            {
+                secretWord.RevealWord();
+            }
 
             return result;
         }
@@ -42,7 +52,7 @@ namespace WordleVariations
         {
             if (obj == null) return false;
 
-            string secretWordString = secretWord.RevealWord();
+            string secretWordString = secretWord.PeekWord();
 
             if (obj is string)
             {
@@ -52,12 +62,12 @@ namespace WordleVariations
             {
                 SecretWord secretWord = (SecretWord)obj;
 
-                return secretWord.RevealWord().Equals(secretWordString);
+                return secretWord.PeekWord().Equals(secretWordString);
             }
 
             SecretWordContainer other = (SecretWordContainer)obj;
 
-            return other.RevealWord().Equals(secretWordString);
+            return other.PeekWord().Equals(secretWordString);
         }
 
         #region private methods
@@ -65,7 +75,7 @@ namespace WordleVariations
         private LetterType[] guessWord(string guess)
         {
             LetterType[] result = new LetterType[guess.Length];
-            string secretWord = this.secretWord.RevealWord();
+            string secretWord = this.secretWord.PeekWord();
 
             for (int i = 0; i < guess.Length; i++)
             {
@@ -116,12 +126,12 @@ namespace WordleVariations
 
         private bool containsLetter(char c)
         {
-            return secretWord.RevealWord().Contains(c);
+            return secretWord.PeekWord().Contains(c);
         }
 
         private int countCorrectOccurances(string guess, char letter)
         {
-            string secretWord = this.secretWord.RevealWord();
+            string secretWord = this.secretWord.PeekWord();
             int count = 0;
 
             for (int i = 0; i < guess.Length; i++)
