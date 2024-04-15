@@ -21,9 +21,21 @@ namespace WordleVariations
             secretWord = new SecretWord(str); 
         }
 
+        /// <summary>
+        /// Allows viewing of the secret word without marking it as revealed. Should only be used for tests
+        /// </summary>
+        /// <returns></returns>
         public string PeekWord()
         {
             return secretWord.PeekWord();
+        }
+
+        /// <summary>
+        /// Reveals the secret word, guesses should not be allowed after this. 
+        /// </summary>
+        public string RevealWord()
+        {
+            return secretWord.RevealWord();
         }
 
         public bool HasBeenRevealed()

@@ -28,27 +28,36 @@ namespace WordleVariations
 
             Console.WriteLine("Try to guess the secret word in as few guesses as possible! " +
                 "Correct letters correctly placed will be printed as capital letters, " +
-                "while correct letters in the wrong location will be printed as lowercase letters.");
+                "while correct letters in the wrong location will be printed as lowercase letters. " + 
+                "Enter -1 to reveal answers.");
 
             while(playAgain)
             {
                 Console.Write("Guess: ");
-                string guess = Console.ReadLine();
+                string userInput = Console.ReadLine();
 
-                LetterResponse[] result;
-                GuessResponseData response = instance.MakeGuess(guess);
-                if (response.WasLastGuessValid())
+                if(userInput.Equals("-1"))
                 {
-                    printResponse(guess, response);
-
-                    if (response.HasWon())
-                    {
-                        wonGame(response);
-                    }
+                    gaveUpGame();
                 } else
                 {
-                    Console.WriteLine("Not a valid guess!");
+                    LetterResponse[] result;
+                    GuessResponseData response = instance.MakeGuess(userInput);
+                    if (response.WasLastGuessValid())
+                    {
+                        printResponse(userInput, response);
+
+                        if (response.HasWon())
+                        {
+                            wonGame(response);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Not a valid guess!");
+                    }
                 }
+                
             }
         }
 
@@ -66,7 +75,20 @@ namespace WordleVariations
         {
             int highestGuessWord = winningResponse.GuessCount();
 
-            Console.WriteLine("You won with " + highestGuessWord + " guesses! Play again? (Y/N)");
+            Console.WriteLine("You won with " + highestGuessWord + " guesses!");
+            checkPlayAgain();
+        }
+
+        private void gaveUpGame()
+        {
+            printAnswers();
+            Console.WriteLine("\nYou lost");
+            checkPlayAgain();
+        }
+
+        private void checkPlayAgain()
+        {
+            Console.WriteLine("Play again? (Y/N)");
             string userResponse = Console.ReadLine();
 
             if (string.Equals(userResponse, "N", StringComparison.OrdinalIgnoreCase))
@@ -76,6 +98,15 @@ namespace WordleVariations
             else
             {
                 instance.SetupNewGame();
+            }
+        }
+
+        private void printAnswers()
+        {
+            string[] words = instance.RevealAllWords();
+            foreach (string word in words)
+            {
+                Console.Write(word + "\t\t");
             }
         }
 

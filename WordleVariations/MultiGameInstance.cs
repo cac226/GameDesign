@@ -56,6 +56,12 @@ namespace WordleVariations
             return result;
         }
 
+        public string[] RevealAllWords()
+        {
+            string[] result = secretWords.Select(x => x.RevealWord()).ToArray();
+            return result;
+        }
+
         private GuessResponseData buildGuessResult(string validGuess)
         {
             guessCount++;
