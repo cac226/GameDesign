@@ -6,26 +6,29 @@ namespace WordleVariations.DataObjects
     {
         private WordFeedback[] wordFeedback;
         private bool hasWon;
-        private bool wasLastGuessValid;
-        private int guessCount;
+        private GuessError errorMessage;
 
-        private GuessResponseData(WordFeedback[] letterGuessResult, bool hasWon, bool wasLastGuessValid, int guessCount)
+        private GuessResponseData(WordFeedback[] letterGuessResult, bool hasWon, GuessError errorMessage)
         {
             this.wordFeedback = letterGuessResult;
             this.hasWon = hasWon;
-            this.wasLastGuessValid = wasLastGuessValid;
-            this.guessCount = guessCount;
+            this.errorMessage = errorMessage;
         }
 
-        public static GuessResponseData CreateDataValidGuess(WordFeedback[] wordFeedback, int guessCount)
+        public static GuessResponseData CreateDataValidGuess(WordFeedback[] wordFeedback)
         {
             bool hasWon = wordFeedback.All(word => word.HasCorrectlyGuessed());
-            return new GuessResponseData(wordFeedback, hasWon, true, guessCount);
+            return new GuessResponseData(wordFeedback, hasWon, GuessError.NONE);
         }
 
-        public static GuessResponseData CreateDataInvalidGuess(int guessCount)
+        public static GuessResponseData CreateDataInvalidGuess()
         {
-            return new GuessResponseData(new WordFeedback[0], false, false, guessCount);
+            return new GuessResponseData(new WordFeedback[0], false, GuessError.INVALID_WORD);
+        }
+
+        public static GuessResponseData CreateDataRepeatGuess()
+        {
+            return new GuessResponseData(new WordFeedback[0], false, GuessError.REPEAT_GUESS);
         }
 
         public WordFeedback[] GetWordFeedback()
@@ -40,12 +43,12 @@ namespace WordleVariations.DataObjects
 
         public bool WasLastGuessValid()
         {
-            return wasLastGuessValid;
+            return errorMessage == GuessError.NONE;
         }
 
-        public int GuessCount()
+        public GuessError GetError()
         {
-            return guessCount;
+            return errorMessage;
         }
     }
 }

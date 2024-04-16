@@ -6,11 +6,6 @@ using WordleVariations.DataObjects;
 
 namespace WordleVariations
 {
-    /*
-     TODO: include a "you got this in X guesses" 
-     TODO: add "give up" option 
-     TODO: don't let users repeat guesses 
-     */
     public class Runner {
 
         private MultiGameInstance instance;
@@ -73,7 +68,7 @@ namespace WordleVariations
 
         private void wonGame(GuessResponseData winningResponse)
         {
-            int highestGuessWord = winningResponse.GuessCount();
+            int highestGuessWord = instance.GetGuessCount();
 
             Console.WriteLine("You won with " + highestGuessWord + " guesses!");
             checkPlayAgain();

@@ -13,7 +13,7 @@ namespace WordleVariations
         private int numSecretWords;
 
         private SecretWordContainer[] secretWords;
-        private int guessCount;
+        private List<string> pastGuesses;
 
 
         private MultiGameInstance(IGetWords inpWordGetter, int numSecretWords)
@@ -25,7 +25,7 @@ namespace WordleVariations
         public void SetupNewGame()
         {
             secretWords = wordRepository.GetRandomFiveLetterWords(numSecretWords);
-            guessCount = 0;
+            pastGuesses = new List<string>();
         }
 
         public static MultiGameInstance Create(IGetWords inpWordGetter, int numSecretWords)
@@ -36,12 +36,23 @@ namespace WordleVariations
         }
         public GuessResponseData MakeGuess(string guess)
         {
-            if (!isValidGuess(guess))
+            if (hasGuessedWordBefore(guess))
             {
-                return GuessResponseData.CreateDataInvalidGuess(guessCount);
+                return GuessResponseData.CreateDataRepeatGuess();
+            }
+            if(!isRecognizedWord(guess))
+            {
+                return GuessResponseData.CreateDataInvalidGuess();
             }
 
+
+            pastGuesses.Add(guess);
             return buildGuessResult(guess);
+        }
+
+        public int GetGuessCount()
+        {
+            return pastGuesses.Count;
         }
 
         public bool[] IsSecretWord(string guess)
@@ -64,7 +75,7 @@ namespace WordleVariations
 
         private GuessResponseData buildGuessResult(string validGuess)
         {
-            guessCount++;
+            // Contains data on correct/incorrect letter guesses for multiple secret words 
             WordFeedback[] wordFeedback = new WordFeedback[secretWords.Length];
 
             for(int i = 0; i < wordFeedback.Length; i++)
@@ -81,12 +92,17 @@ namespace WordleVariations
                 
             }
 
-            GuessResponseData result = GuessResponseData.CreateDataValidGuess(wordFeedback, guessCount);
+            GuessResponseData result = GuessResponseData.CreateDataValidGuess(wordFeedback);
 
             return result;
         }
 
-        private bool isValidGuess(string guess)
+        private bool hasGuessedWordBefore(string guess)
+        {
+            return pastGuesses.Contains(guess);
+        }
+
+        private bool isRecognizedWord(string guess)
         {
             return wordRepository.IsValidFiveLetterWord(guess);
         }
