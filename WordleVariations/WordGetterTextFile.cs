@@ -9,7 +9,6 @@ namespace WordleVariations
 {
     internal class WordGetterTextFile : IGetWords
     {
-        private static readonly string FIVE_LETTER_WORD_FILE_PATH = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"FiveLetterWords.txt");
         private readonly string[] fiveLetterWords;
 
         private WordGetterTextFile(string[] fiveLetterWords)
@@ -17,11 +16,11 @@ namespace WordleVariations
             this.fiveLetterWords = fiveLetterWords;
         }
 
-        public static WordGetterTextFile Create()
+        public static WordGetterTextFile Create(string fiveLetterWordFilePath)
         {
             List<string> words = new List<string>();
 
-            using (StreamReader reader = new StreamReader(FIVE_LETTER_WORD_FILE_PATH))
+            using (StreamReader reader = new StreamReader(fiveLetterWordFilePath))
             {
                 string line;
                 while ((line = reader.ReadLine()) != null)

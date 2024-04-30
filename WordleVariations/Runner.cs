@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using WordleVariations.DataObjects;
 
 namespace WordleVariations
 {
     public class Runner {
-
+        private static readonly string FIVE_LETTER_WORD_FILE_PATH = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"FiveLetterWords.txt");
         private MultiGameInstance instance;
         bool playAgain;
 
         public Runner()
         {
-            instance = MultiGameInstance.Create(WordGetterTextFile.Create(), 2);
+            instance = MultiGameInstance.Create(WordGetterTextFile.Create(FIVE_LETTER_WORD_FILE_PATH), 2);
             playAgain = true;
         }
 
